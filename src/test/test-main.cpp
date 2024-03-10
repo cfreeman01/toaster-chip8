@@ -1,6 +1,6 @@
 #include "CppUTest/CommandLineTestRunner.h"
 
-IMPORT_TEST_GROUP(SampleTests);
+IMPORT_TEST_GROUP(RegisterTests);
 
 int main(int argc, char** argv)
 {

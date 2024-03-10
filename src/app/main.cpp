@@ -1,6 +1,6 @@
 #include "emulator/emulator.h"
 
-int main(void){
-    emu_printhello();
+int main(void)
+{
     return 0;
 }
