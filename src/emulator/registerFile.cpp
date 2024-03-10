@@ -1,11 +1,21 @@
 #include <emulator/registerFile.h>
 
-uint8_t RegisterFile::readReg(Register reg)
+EmuErrorCode RegisterFile::readReg(uint8_t reg, uint8_t* val)
 {
-    return registers[static_cast<int>(reg)];
+    if(reg >= NUM_REGS)
+        return EmuErrorCode::REG_RANGE;
+
+    *val = registers[reg];
+
+    return EmuErrorCode::SUCCESS;
 }
 
-void RegisterFile::writeReg(Register reg, uint8_t val)
+EmuErrorCode RegisterFile::writeReg(uint8_t reg, uint8_t val)
 {
-    registers[static_cast<int>(reg)] = val;
+    if(reg >= NUM_REGS)
+        return EmuErrorCode::REG_RANGE;
+
+    registers[reg] = val;
+
+    return EmuErrorCode::SUCCESS;
 }

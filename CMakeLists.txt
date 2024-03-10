@@ -3,7 +3,7 @@ project(toaster-chip8)
 
 set(APP_DIR     src/app)
 set(EMU_DIR     src/emulator)
-set(TEST_DIR    src/test)
+set(TEST_DIR    test)
 set(INCLUDE_DIR include) 
 
 #CppUTest
