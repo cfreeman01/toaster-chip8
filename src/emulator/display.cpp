@@ -1,13 +1,13 @@
 #include "emulator/display.h"
 #include <stdio.h>
 
-bool Display::drawSprite(uint32_t x, uint32_t y, uint8_t* sprite, uint32_t height)
+bool Display::drawSprite(uint8_t x, uint8_t y, uint8_t* sprite, uint8_t height)
 {
     bool pixelUnset = false;
     x = x % NUM_COLS;
     y = y % NUM_ROWS;
 
-    for(uint32_t i = 0; (i < height) && (i+y < NUM_ROWS); i++)
+    for(uint8_t i = 0; (i < height) && (i+y < NUM_ROWS); i++)
         if(xorRow(x, y+i, sprite[i]))
             pixelUnset = true;
 
@@ -16,7 +16,7 @@ bool Display::drawSprite(uint32_t x, uint32_t y, uint8_t* sprite, uint32_t heigh
 
 void Display::clear()
 {
-    for(uint32_t i = 0; i < NUM_ROWS; i++)
+    for(uint8_t i = 0; i < NUM_ROWS; i++)
         displayData[i] = 0;
 }
 
@@ -25,7 +25,7 @@ const uint64_t* const Display::getDisplayData()
     return (const uint64_t* const)displayData;
 }
 
-bool Display::xorRow(uint32_t x, uint32_t y, uint8_t spriteRow)
+bool Display::xorRow(uint8_t x, uint8_t y, uint8_t spriteRow)
 {
     bool pixelUnset = false;
 
@@ -33,7 +33,7 @@ bool Display::xorRow(uint32_t x, uint32_t y, uint8_t spriteRow)
     spriteRowExt <<= (NUM_COLS) - SPRITE_WIDTH;
     spriteRowExt >>= x;
 
-    for(uint32_t i = 0; i < SPRITE_WIDTH && ((x+i) < NUM_COLS); i++)
+    for(uint8_t i = 0; i < SPRITE_WIDTH && ((x+i) < NUM_COLS); i++)
     {
         uint64_t curBitSet = (0x80'00'00'00'00'00'00'00 >> (x + i));
         uint64_t displayRowTemp = displayData[y] & curBitSet;

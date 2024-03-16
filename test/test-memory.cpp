@@ -1,6 +1,6 @@
 #include "CppUTest/TestHarness.h"
 #include "emulator/memory.h"
-#include "emuErrorCodeUtils.h"
+#include "stringConversions.h"
 
 TEST_GROUP(MemoryTests){
 

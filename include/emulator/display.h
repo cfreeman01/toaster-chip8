@@ -8,12 +8,12 @@ class Display
     static const uint32_t NUM_ROWS     = 32;
     static const uint32_t SPRITE_WIDTH = 8;
 
-    bool drawSprite(uint32_t x, uint32_t y, uint8_t* sprite, uint32_t height);
+    bool drawSprite(uint8_t x, uint8_t y, uint8_t* sprite, uint8_t height);
     void clear();
     const uint64_t* const getDisplayData();
 
     private:
     uint64_t displayData[NUM_ROWS] = {0};
 
-    bool xorRow(uint32_t x, uint32_t y, uint8_t spriteRow);
+    bool xorRow(uint8_t x, uint8_t y, uint8_t spriteRow);
 };

@@ -1,6 +1,6 @@
 #include "CppUTest/TestHarness.h"
 #include "emulator/registerFile.h"
-#include "emuErrorCodeUtils.h"
+#include "stringConversions.h"
 
 TEST_GROUP(RegisterTests){
 

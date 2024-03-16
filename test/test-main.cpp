@@ -3,6 +3,7 @@
 IMPORT_TEST_GROUP(RegisterTests);
 IMPORT_TEST_GROUP(MemoryTests);
 IMPORT_TEST_GROUP(DisplayTests);
+IMPORT_TEST_GROUP(DecodeTests);
 
 int main(int argc, char** argv)
 {

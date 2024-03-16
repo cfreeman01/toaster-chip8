@@ -1,6 +1,6 @@
 #include "CppUTest/TestHarness.h"
 #include "emulator/display.h"
-#include "emuErrorCodeUtils.h"
+#include "stringConversions.h"
 
 TEST_GROUP(DisplayTests){
 
