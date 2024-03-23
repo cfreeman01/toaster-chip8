@@ -1,4 +1,9 @@
+#include "emulator/emulator.h"
+
 int main(void)
 {
-    return 0;
+    Emulator emulator;
+
+    emulator.executeInstruction(0x00E0);
+    emulator.executeInstruction(0xD123);
 }
