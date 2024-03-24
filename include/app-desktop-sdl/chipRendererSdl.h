@@ -11,7 +11,6 @@ class CHIPRendererSDL: public CHIPRenderer
     EmuErrorCode render(const uint64_t* displayData);
 
     private:
-    SDL_Window*   window;
     SDL_Renderer* renderer;
     SDL_Texture*  texture;
 };

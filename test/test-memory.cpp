@@ -2,8 +2,8 @@
 #include "emulator/memory.h"
 #include "stringConversions.h"
 
-TEST_GROUP(MemoryTests){
-
+TEST_GROUP(MemoryTests)
+{
     Memory memory;
     static const uint8_t LEN = 10;
     uint8_t writeVals[LEN]   = {0xAA, 0xFF, 0x00, 0xBE, 0xEF, 0xDE, 0xAD, 0xFF, 0x12, 0x34};

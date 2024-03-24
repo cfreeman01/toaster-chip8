@@ -3,7 +3,8 @@
 #include "emulator/chipInstruction.h"
 #include "stringConversions.h"
 
-TEST_GROUP(DecodeTests){
+TEST_GROUP(DecodeTests)
+{
     uint16_t opcode;
     CHIPInstruction ins;
     static const uint8_t ARGS_SIZE = 3;

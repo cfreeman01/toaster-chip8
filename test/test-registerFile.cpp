@@ -2,8 +2,8 @@
 #include "emulator/registerFile.h"
 #include "stringConversions.h"
 
-TEST_GROUP(RegisterTests){
-
+TEST_GROUP(RegisterTests)
+{
     RegisterFile  registerFile;
     const uint8_t writeVal = 0xAA;
     uint8_t       readVal;

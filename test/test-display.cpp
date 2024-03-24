@@ -2,8 +2,8 @@
 #include "emulator/display.h"
 #include "stringConversions.h"
 
-TEST_GROUP(DisplayTests){
-
+TEST_GROUP(DisplayTests)
+{
     Display display;
     uint64_t empty[Display::HEIGHT] = {0};
     uint32_t displaySizeBytes = 8 * 32;

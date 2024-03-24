@@ -1,4 +1,3 @@
-#include "emulator/emulator.h"
 #include "app-desktop-sdl/chipRendererSdl.h"
 #include "app-desktop-sdl/sdlContext.h"
 
@@ -12,7 +11,6 @@ int main(void)
         return 1;
 
     CHIPRendererSDL renderer(sdlContext.getWindow());
-    renderer.render(nullptr);
 
     SDL_Event sdlEvent;
     while(true)

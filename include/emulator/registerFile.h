@@ -1,6 +1,6 @@
 #pragma once
 #include <cstdint>
-#include <emulator/emuErrorCode.h>
+#include "emuErrorCode.h"
 
 class RegisterFile
 {
