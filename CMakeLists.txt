@@ -1,10 +1,13 @@
 cmake_minimum_required(VERSION 3.2)
 project(toaster-chip8)
 
-set(APP_DIR     src/app)
+set(APP_DIR     src/app-desktop-sdl)
 set(EMU_DIR     src/emulator)
 set(TEST_DIR    test)
 set(INCLUDE_DIR include) 
+
+#SDL2
+find_package(SDL2 REQUIRED)
 
 #CppUTest
 add_subdirectory(cpputest)
@@ -15,7 +18,8 @@ file(GLOB_RECURSE EMU_SRC
             ${EMU_DIR}/*.h)
             
 add_library(CHIP8-Emu ${EMU_SRC})
-include_directories(CHIP8-Emu ${INCLUDE_DIR})
+target_link_libraries(CHIP8-Emu ${SDL2_LIBRARIES})
+include_directories(CHIP8-Emu ${INCLUDE_DIR} ${SDL2_INCLUDE_DIRS})
 
 #Emulator app
 file(GLOB_RECURSE APP_SRC

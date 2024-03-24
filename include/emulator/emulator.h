@@ -1,21 +1,24 @@
 #pragma once
 #include <cstdint>
 #include <map>
-#include "emulator/chipInstruction.h"
-#include "emulator/display.h"
-#include "emulator/registerFile.h"
-#include "emulator/memory.h"
+#include "chipInstruction.h"
+#include "display.h"
+#include "registerFile.h"
+#include "memory.h"
+#include "chipRenderer.h"
 
 class Emulator
 {
     public:
-    void executeInstruction(uint16_t opcode);
+    void setRenderer(CHIPRenderer & renderer) { this->renderer = &renderer; }
 
     private:
+    CHIPRenderer* renderer;
     Display display;
     RegisterFile registerFile;
     Memory memory;
 
+    void executeInstruction(uint16_t opcode);
     void ex_00E0(uint16_t* args);
     void ex_DXYN(uint16_t* args);
 

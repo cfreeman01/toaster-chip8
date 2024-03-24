@@ -5,7 +5,7 @@
 TEST_GROUP(DisplayTests){
 
     Display display;
-    uint64_t empty[Display::NUM_ROWS] = {0};
+    uint64_t empty[Display::HEIGHT] = {0};
     uint32_t displaySizeBytes = 8 * 32;
 
     void setup()
@@ -25,7 +25,7 @@ TEST(DisplayTests, WriteAll1Middle)
     const uint32_t spriteX      = 24;
     const uint32_t spriteY      = 8;
 
-    uint64_t expected[Display::NUM_ROWS] = 
+    uint64_t expected[Display::HEIGHT] = 
     {
         0x00'00'00'00'00'00'00'00,
         0x00'00'00'00'00'00'00'00,
@@ -72,7 +72,7 @@ TEST(DisplayTests, WritePatternMiddle)
     const uint32_t spriteX      = 24;
     const uint32_t spriteY      = 8;
 
-    uint64_t expected[Display::NUM_ROWS] = 
+    uint64_t expected[Display::HEIGHT] = 
     {
         0x00'00'00'00'00'00'00'00,
         0x00'00'00'00'00'00'00'00,
@@ -131,7 +131,7 @@ TEST(DisplayTests, WriteAll1RightEdge)
     const uint32_t spriteX      = 60;
     const uint32_t spriteY      = 8;
 
-    uint64_t expected[Display::NUM_ROWS] = 
+    uint64_t expected[Display::HEIGHT] = 
     {
         0x00'00'00'00'00'00'00'00,
         0x00'00'00'00'00'00'00'00,
@@ -175,7 +175,7 @@ TEST(DisplayTests, WriteAll1BottomEdge)
     const uint32_t spriteX      = 24;
     const uint32_t spriteY      = 28;
 
-    uint64_t expected[Display::NUM_ROWS] = 
+    uint64_t expected[Display::HEIGHT] = 
     {
         0x00'00'00'00'00'00'00'00,
         0x00'00'00'00'00'00'00'00,
