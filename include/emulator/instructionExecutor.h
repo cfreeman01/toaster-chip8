@@ -7,7 +7,7 @@
 class InstructionExecutor
 {
     public:
-    static void executeInstruction(uint16_t opcode, EmulatorState & state);
+        static void execute(uint16_t opcode, EmulatorState & state);
 
     private:
         typedef void (*InsPtr)();

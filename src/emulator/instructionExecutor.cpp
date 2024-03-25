@@ -41,7 +41,11 @@ map<CHIPInstruction, InstructionExecutor::InsPtr> InstructionExecutor::instructi
     {CHIPInstruction::_FX65, &InstructionExecutor::ex_FX65}
 };
 
-void InstructionExecutor::executeInstruction(uint16_t opcode, EmulatorState & emuState)
+uint16_t InstructionExecutor::args[3];
+
+EmulatorState* InstructionExecutor::state;
+
+void InstructionExecutor::execute(uint16_t opcode, EmulatorState & emuState)
 {
     state = &emuState;
 
@@ -163,7 +167,7 @@ void InstructionExecutor::ex_CXNN()
 void InstructionExecutor::ex_DXYN()
 {
     uint8_t x, y, n = args[2];
-    uint8_t* sprite;
+    uint8_t sprite[16];
 
     state->registerFile.readReg(args[0], &x);
     state->registerFile.readReg(args[1], &y);
