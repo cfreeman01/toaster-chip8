@@ -51,6 +51,8 @@ void InstructionExecutor::execute(uint16_t opcode, EmulatorState & emuState)
 
     CHIPInstruction ins = InstructionDecoder::decode(opcode, args);
 
+    state->programCounter += 2;
+
     (*instructionMap[ins])();
 }
 
@@ -61,32 +63,53 @@ void InstructionExecutor::ex_00E0()
 
 void InstructionExecutor::ex_00EE()
 {
-    // Implementation for opcode 00EE
+    uint16_t newPC = state->sysStack.top();
+    state->sysStack.pop();
+
+    state->programCounter = newPC;
 }
 
 void InstructionExecutor::ex_1NNN()
 {
-    // Implementation for opcode 1NNN
+    state->programCounter = args[0];
 }
 
 void InstructionExecutor::ex_2NNN()
 {
-    // Implementation for opcode 2NNN
+    state->sysStack.push(state->programCounter);
+
+    state->programCounter = args[0];
 }
 
 void InstructionExecutor::ex_3XNN()
 {
-    // Implementation for opcode 3XNN
+    uint8_t vxVal;
+
+    state->registerFile.readReg(args[0], &vxVal);
+
+    if(vxVal == args[1])
+        state->programCounter += 2;
 }
 
 void InstructionExecutor::ex_4XNN()
 {
-    // Implementation for opcode 4XNN
+    uint8_t vxVal;
+
+    state->registerFile.readReg(args[0], &vxVal);
+
+    if(vxVal != args[1])
+        state->programCounter += 2;
 }
 
 void InstructionExecutor::ex_5XY0()
 {
-    // Implementation for opcode 5XY0
+    uint8_t vxVal, vyVal;
+
+    state->registerFile.readReg(args[0], &vxVal);
+    state->registerFile.readReg(args[1], &vyVal);
+
+    if(vxVal == vyVal)
+        state->programCounter += 2;
 }
 
 void InstructionExecutor::ex_6XNN()
@@ -234,17 +257,29 @@ void InstructionExecutor::ex_8XYE()
 
 void InstructionExecutor::ex_9XY0()
 {
-    // Implementation for opcode 9XY0
+    uint8_t vxVal, vyVal;
+
+    state->registerFile.readReg(args[0], &vxVal);
+    state->registerFile.readReg(args[1], &vyVal);
+
+    if(vxVal != vyVal)
+        state->programCounter += 2;
 }
 
 void InstructionExecutor::ex_ANNN()
 {
-    // Implementation for opcode ANNN
+    state->indexReg = args[0];
 }
 
 void InstructionExecutor::ex_BNNN()
 {
-    // Implementation for opcode BNNN
+    uint8_t val;
+
+    state->registerFile.readReg(0x0, &val);
+
+    val += args[0];
+
+    state->programCounter = val;
 }
 
 void InstructionExecutor::ex_CXNN()
@@ -302,7 +337,11 @@ void InstructionExecutor::ex_FX18()
 
 void InstructionExecutor::ex_FX1E()
 {
-    // Implementation for opcode FX1E
+    uint8_t vxVal;
+
+    state->registerFile.readReg(args[0], &vxVal);
+
+    state->indexReg += vxVal;
 }
 
 void InstructionExecutor::ex_FX29()
