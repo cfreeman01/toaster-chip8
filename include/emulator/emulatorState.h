@@ -5,11 +5,11 @@
 #include "chipRenderer.h"
 #include <stack>
 
-typedef struct EmulatorState{
+typedef struct EmulatorState
+{
     Memory               memory;
     RegisterFile         registerFile;
     Display              display;
-    CHIPRenderer*        renderer;
     uint16_t             programCounter;
     uint16_t             indexReg;
     std::stack<uint16_t> sysStack;

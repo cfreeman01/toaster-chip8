@@ -91,57 +91,145 @@ void InstructionExecutor::ex_5XY0()
 
 void InstructionExecutor::ex_6XNN()
 {
-    // Implementation for opcode 6XNN
+    state->registerFile.writeReg(args[0], args[1]);
 }
 
 void InstructionExecutor::ex_7XNN()
 {
-    // Implementation for opcode 7XNN
+    uint8_t val;
+    state->registerFile.readReg(args[0], &val);
+    val += args[1];
+    state->registerFile.writeReg(args[0], val);
 }
 
 void InstructionExecutor::ex_8XY0()
 {
-    // Implementation for opcode 8XY0
+    uint8_t val;
+    state->registerFile.readReg(args[1], &val);
+    state->registerFile.writeReg(args[0], val);
 }
 
 void InstructionExecutor::ex_8XY1()
 {
-    // Implementation for opcode 8XY1
+    uint8_t xval, yval, res;
+
+    state->registerFile.readReg(args[0], &xval);
+    state->registerFile.readReg(args[1], &yval);
+
+    res = xval | yval;
+
+    state->registerFile.writeReg(args[0], res);
 }
 
 void InstructionExecutor::ex_8XY2()
 {
-    // Implementation for opcode 8XY2
+    uint8_t xval, yval, res;
+
+    state->registerFile.readReg(args[0], &xval);
+    state->registerFile.readReg(args[1], &yval);
+
+    res = xval & yval;
+
+    state->registerFile.writeReg(args[0], res);
 }
 
 void InstructionExecutor::ex_8XY3()
 {
-    // Implementation for opcode 8XY3
+    uint8_t xval, yval, res;
+
+    state->registerFile.readReg(args[0], &xval);
+    state->registerFile.readReg(args[1], &yval);
+
+    res = xval ^ yval;
+
+    state->registerFile.writeReg(args[0], res);
 }
 
 void InstructionExecutor::ex_8XY4()
 {
-    // Implementation for opcode 8XY4
+    uint8_t xval, yval, sum;
+    bool carry;
+
+    state->registerFile.readReg(args[0], &xval);
+    state->registerFile.readReg(args[1], &yval);
+
+    sum = xval + yval;
+    carry = (uint32_t)(xval + yval) > sum;
+
+    state->registerFile.writeReg(args[0], sum);
+
+    if(carry)
+        state->registerFile.writeReg(0xF, 0x1);
+    else
+        state->registerFile.writeReg(0xF, 0x0);
 }
 
 void InstructionExecutor::ex_8XY5()
 {
-    // Implementation for opcode 8XY5
+    uint8_t xval, yval, diff;
+    bool borrow;
+
+    state->registerFile.readReg(args[0], &xval);
+    state->registerFile.readReg(args[1], &yval);
+
+    diff   = xval - yval;
+    borrow = yval > xval;
+
+    state->registerFile.writeReg(args[0], diff);
+
+    if(borrow)
+        state->registerFile.writeReg(0xF, 0x0);
+    else
+        state->registerFile.writeReg(0xF, 0x1);
 }
 
 void InstructionExecutor::ex_8XY6()
 {
-    // Implementation for opcode 8XY6
+    uint8_t yval, res, lsb;
+
+    state->registerFile.readReg(args[1], &yval);
+
+    lsb = yval & 0x1;
+
+    res = yval >> 1;
+
+    state->registerFile.writeReg(args[0], res);
+
+    state->registerFile.writeReg(0xF, lsb);
 }
 
 void InstructionExecutor::ex_8XY7()
 {
-    // Implementation for opcode 8XY7
+    uint8_t xval, yval, diff;
+    bool borrow;
+
+    state->registerFile.readReg(args[0], &xval);
+    state->registerFile.readReg(args[1], &yval);
+
+    diff   = yval - xval;
+    borrow = xval > yval;
+
+    state->registerFile.writeReg(args[0], diff);
+
+    if(borrow)
+        state->registerFile.writeReg(0xF, 0x0);
+    else
+        state->registerFile.writeReg(0xF, 0x1);
 }
 
 void InstructionExecutor::ex_8XYE()
 {
-    // Implementation for opcode 8XYE
+    uint8_t yval, res, msb;
+
+    state->registerFile.readReg(args[1], &yval);
+
+    msb = (yval & 0x80) >> 7;
+
+    res = yval << 1;
+
+    state->registerFile.writeReg(args[0], res);
+
+    state->registerFile.writeReg(0xF, msb);
 }
 
 void InstructionExecutor::ex_9XY0()
@@ -161,7 +249,9 @@ void InstructionExecutor::ex_BNNN()
 
 void InstructionExecutor::ex_CXNN()
 {
-    // Implementation for opcode CXNN
+    uint8_t val = (rand() % 256) & args[1];
+
+    state->registerFile.writeReg(args[0], val);
 }
 
 void InstructionExecutor::ex_DXYN()
