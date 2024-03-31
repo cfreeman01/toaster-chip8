@@ -1,6 +1,11 @@
 #include "app-desktop-sdl/chipRendererSdl.h"
 #include "emulator/display.h"
 
+CHIPRendererSDL::CHIPRendererSDL()
+{
+
+}
+
 CHIPRendererSDL::CHIPRendererSDL(SDL_Window* window)
 {
     renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_TARGETTEXTURE);
@@ -10,8 +15,31 @@ CHIPRendererSDL::CHIPRendererSDL(SDL_Window* window)
 
 CHIPRendererSDL::~CHIPRendererSDL()
 {
-    SDL_DestroyTexture(texture);
-    SDL_DestroyRenderer(renderer);
+    if(texture != nullptr)
+        SDL_DestroyTexture(texture);
+
+    if(renderer != nullptr)
+        SDL_DestroyRenderer(renderer);
+}
+
+CHIPRendererSDL::CHIPRendererSDL(CHIPRendererSDL && other)
+{
+    this->texture = other.texture;
+    other.texture = nullptr;
+
+    this->renderer = other.renderer;
+    other.renderer = nullptr; 
+}
+
+CHIPRendererSDL& CHIPRendererSDL::operator=(CHIPRendererSDL && other)
+{
+    this->texture = other.texture;
+    other.texture = nullptr;
+
+    this->renderer = other.renderer;
+    other.renderer = nullptr; 
+
+    return *this;
 }
 
 EmuErrorCode CHIPRendererSDL::render(const uint64_t* displayData)
