@@ -1,6 +1,7 @@
 #include <iostream>
 #include "emulator/instructionExecutor.h"
 #include "emulator/instructionDecoder.h"
+#include "emulator/emulator.h"
 using namespace std;
 
 map<CHIPInstruction, InstructionExecutor::InsPtr> InstructionExecutor::instructionMap = 
@@ -323,7 +324,7 @@ void InstructionExecutor::ex_EXA1()
 
 void InstructionExecutor::ex_FX07()
 {
-    // Implementation for opcode FX07
+    state->registerFile.writeReg(args[0], state->delayTimer);
 }
 
 void InstructionExecutor::ex_FX0A()
@@ -333,12 +334,16 @@ void InstructionExecutor::ex_FX0A()
 
 void InstructionExecutor::ex_FX15()
 {
-    // Implementation for opcode FX15
+    uint8_t vxVal;
+
+    state->registerFile.readReg(args[0], &vxVal);
+
+    state->delayTimer = vxVal;
 }
 
 void InstructionExecutor::ex_FX18()
 {
-    // Implementation for opcode FX18
+    //sound timer not implemented
 }
 
 void InstructionExecutor::ex_FX1E()
@@ -352,20 +357,49 @@ void InstructionExecutor::ex_FX1E()
 
 void InstructionExecutor::ex_FX29()
 {
-    // Implementation for opcode FX29
+    uint8_t vxVal;
+
+    state->registerFile.readReg(args[0], &vxVal);
+
+    state->indexReg = Emulator::FONT_LOAD_ADDR + vxVal;
 }
 
 void InstructionExecutor::ex_FX33()
 {
-    // Implementation for opcode FX33
+    uint8_t vxVal;
+    uint8_t bcdDigits[3];
+    
+    state->registerFile.readReg(args[0], &vxVal);
+
+    bcdDigits[0] = vxVal / 100;
+    vxVal       -= bcdDigits[0] * 100;
+    bcdDigits[1] = vxVal / 10;
+    vxVal       -= bcdDigits[1] * 10;
+    bcdDigits[2] = vxVal;
+
+    state->memory.write(state->indexReg, bcdDigits, sizeof(bcdDigits));
 }
 
 void InstructionExecutor::ex_FX55()
 {
-    // Implementation for opcode FX55
+    uint8_t x = args[0], regVal;
+
+    for(uint8_t reg = 0; reg <= x; reg++)
+    {
+        state->registerFile.readReg(reg, &regVal);
+        state->memory.write(state->indexReg, &regVal, 1);
+        state->indexReg++;
+    }
 }
 
 void InstructionExecutor::ex_FX65()
 {
-    // Implementation for opcode FX65
+    uint8_t x = args[0], memVal;
+
+    for(uint8_t reg = 0; reg <= x; reg++)
+    {
+        state->memory.read(state->indexReg, &memVal, 1);
+        state->registerFile.writeReg(reg, memVal);
+        state->indexReg++;
+    }
 }

@@ -14,6 +14,12 @@ class Emulator
     void reset();
     void setRenderer(CHIPRenderer* renderer) { this->renderer  = renderer;  }
 
+    static constexpr uint16_t ROM_LOAD_ADDR   = 0x200;
+    static constexpr uint16_t FONT_LOAD_ADDR  = 0x00;
+    static constexpr double   INS_RATE_MS     = 1.428;
+    static constexpr double   TIMER_RATE_MS   = 16.67;
+    static constexpr double   RENDER_RATE_MS  = 16.67;
+
     private:
     EmulatorState  state;
     CHIPRenderer*  renderer   = nullptr;
@@ -21,11 +27,10 @@ class Emulator
 
     EventTimer insTimer;
     EventTimer renderTimer;
-
-    const uint16_t ROM_LOAD_ADDR  = 0x200;
-    const double   INS_RATE_MS    = 1.428;
-    const double   RENDER_RATE_MS = 16.67;
+    EventTimer delayTimer;
 
     void render();
     void exInstruction();
+    void loadFont();
+    void decDelayTimer();
 };

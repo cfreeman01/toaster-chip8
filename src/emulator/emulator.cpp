@@ -2,21 +2,27 @@
 #include <emulator/instructionExecutor.h>
 #include <functional>
 #include <iostream>
+#include <emulator/font.h>
 using namespace std;
 
 Emulator::Emulator()
 {
     function<void()> exInstructionPtr = bind(&Emulator::exInstruction, this);
     function<void()> renderPtr        = bind(&Emulator::render,        this);
+    function<void()> decDelayTimerPtr = bind(&Emulator::decDelayTimer, this);
 
     insTimer    = EventTimer(exInstructionPtr, INS_RATE_MS);
     renderTimer = EventTimer(renderPtr,        RENDER_RATE_MS);
+    delayTimer  = EventTimer(decDelayTimerPtr, TIMER_RATE_MS);
+
+    loadFont();
 }
 
 void Emulator::update(double deltaTimeMs)
 {
     insTimer.update(deltaTimeMs);
     renderTimer.update(deltaTimeMs);
+    delayTimer.update(deltaTimeMs);
 }
 
 void Emulator::loadROM(std::vector<char> & ROMbuffer)
@@ -30,6 +36,7 @@ void Emulator::reset()
 {
     state = EmulatorState();
     curTimeMs = 0;
+    loadFont();
 }
 
 void Emulator::render()
@@ -47,4 +54,15 @@ void Emulator::exInstruction()
     ins |= bytes[0] << 8 | bytes[1];
 
     InstructionExecutor::execute(ins, state);
+}
+
+void Emulator::loadFont()
+{
+    state.memory.write(FONT_LOAD_ADDR, font, sizeof(font));
+}
+
+void Emulator::decDelayTimer()
+{
+    if(state.delayTimer > 0)
+        state.delayTimer--;
 }

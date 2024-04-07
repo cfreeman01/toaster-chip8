@@ -13,4 +13,5 @@ typedef struct EmulatorState
     uint16_t             programCounter;
     uint16_t             indexReg;
     std::stack<uint16_t> sysStack;
+    uint8_t              delayTimer;
 } EmulatorState;
