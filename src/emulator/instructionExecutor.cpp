@@ -53,6 +53,12 @@ void InstructionExecutor::execute(uint16_t opcode, EmulatorState & emuState)
 
     state->programCounter += 2;
 
+    if(ins == CHIPInstruction::_INVALID)
+    {
+        cout << "Invalid instruction: " << hex << opcode << endl;
+        exit(1);
+    }
+
     (*instructionMap[ins])();
 }
 

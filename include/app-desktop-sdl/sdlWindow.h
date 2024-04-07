@@ -16,5 +16,5 @@ class SDLWindow
     SDLWindow& operator=(SDLWindow && other);
 
     private:
-    SDL_Window* window;
+    SDL_Window* window = nullptr;
 };

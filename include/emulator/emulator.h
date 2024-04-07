@@ -13,12 +13,19 @@ class Emulator
     void loadROM(std::vector<char> & ROMbuffer);
     void reset();
     void setRenderer(CHIPRenderer* renderer) { this->renderer  = renderer;  }
-    void setInsRate(double insRateMs)         { this->insRateMs = insRateMs; }
 
     private:
-    EmulatorState state;
-    CHIPRenderer* renderer;
-    double        curTimeMs  = 0;
-    double        insRateMs  = 1.428;
-    EventTimer    testTimer;
+    EmulatorState  state;
+    CHIPRenderer*  renderer   = nullptr;
+    double         curTimeMs  = 0;
+
+    EventTimer insTimer;
+    EventTimer renderTimer;
+
+    const uint16_t ROM_LOAD_ADDR  = 0x200;
+    const double   INS_RATE_MS    = 1.428;
+    const double   RENDER_RATE_MS = 16.67;
+
+    void render();
+    void exInstruction();
 };

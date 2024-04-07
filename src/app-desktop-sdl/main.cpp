@@ -24,16 +24,10 @@ int main(int argc, char* argv[])
     double          prevTimeMs;
     double          deltaTimeMs;
 
-    if(argc != 2 && argc !=3)
+    if(argc != 2)
     {
         printUsage();
         return 1;
-    }
-    
-    if(argc == 3)
-    {
-        uint32_t insRate = stoul(string(argv[2]));
-        emulator.setInsRate(insRate);
     }
 
     if(readROMFile(argv[1], ROMbuffer))
@@ -41,8 +35,6 @@ int main(int argc, char* argv[])
         cout << "ERROR: Could not read ROM file." << endl;
         return 1;
     }
-
-    emulator.loadROM(ROMbuffer);
 
     if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_EVENTS) < 0)
     {
@@ -59,6 +51,10 @@ int main(int argc, char* argv[])
     }
 
     renderer = CHIPRendererSDL(sdlWindow.getWindow());
+
+    emulator.loadROM(ROMbuffer);
+
+    emulator.setRenderer(&renderer);
 
     curTimeMs = prevTimeMs = getTimeMs();
     while(true)
@@ -80,9 +76,7 @@ void printUsage()
 {
     cout                                                 << endl;
     cout << "==============CHIP8 Emulator==============" << endl;
-    cout << "./CHIP8 <ROM path> <instructions per sec>"  << endl;
-    cout << "<ROM path>: path to ROM"                    << endl;
-    cout << "<instructions per sec>: defaults to 700"    << endl;
+    cout << "    Usage: ./CHIP8 <path to ROM file>     " << endl;
     cout                                                 << endl;
 }
 

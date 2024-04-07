@@ -16,6 +16,6 @@ class CHIPRendererSDL: public CHIPRenderer
     CHIPRendererSDL& operator=(CHIPRendererSDL && other);
 
     private:
-    SDL_Renderer* renderer;
-    SDL_Texture*  texture;
+    SDL_Renderer* renderer = nullptr;
+    SDL_Texture*  texture  = nullptr; 
 };
