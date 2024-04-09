@@ -45,6 +45,10 @@ CHIPRendererSDL& CHIPRendererSDL::operator=(CHIPRendererSDL && other)
 EmuErrorCode CHIPRendererSDL::render(const uint64_t* displayData)
 {
     SDL_SetRenderTarget(renderer, texture);
+
+    SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0);
+    SDL_RenderClear(renderer);
+    
     SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
 
     uint64_t mask = 0x80'00'00'00'00'00'00'00;
@@ -54,8 +58,6 @@ EmuErrorCode CHIPRendererSDL::render(const uint64_t* displayData)
                 SDL_RenderDrawPoint(renderer, col, row);
 
     SDL_SetRenderTarget(renderer, NULL);
-    SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0);
-    SDL_RenderClear(renderer);
     
     SDL_RenderCopy(renderer, texture, NULL, NULL);
     

@@ -314,12 +314,28 @@ void InstructionExecutor::ex_DXYN()
 
 void InstructionExecutor::ex_EX9E()
 {
-    // Implementation for opcode EX9E
+    uint8_t vxVal;
+    uint16_t keyMask;
+
+    state->registerFile.readReg(args[0], &vxVal);
+
+    keyMask = 0x1 << vxVal;
+
+    if(state->keys & keyMask)
+        state->programCounter += 2;
 }
 
 void InstructionExecutor::ex_EXA1()
 {
-    // Implementation for opcode EXA1
+    uint8_t vxVal;
+    uint16_t keyMask;
+
+    state->registerFile.readReg(args[0], &vxVal);
+
+    keyMask = 0x1 << vxVal;
+
+    if(!(state->keys & keyMask))
+        state->programCounter += 2;
 }
 
 void InstructionExecutor::ex_FX07()
@@ -329,7 +345,22 @@ void InstructionExecutor::ex_FX07()
 
 void InstructionExecutor::ex_FX0A()
 {
-    // Implementation for opcode FX0A
+    if(state->keys == 0)
+    {
+        state->programCounter -= 2;
+        return;
+    }
+
+    for(uint8_t keyNum = 0; keyNum < 16; keyNum++)
+    {
+        uint16_t keyMask = 0x1 << keyNum;
+        if(state->keys & keyMask)
+        {
+            state->registerFile.writeReg(args[0], keyNum);
+            state->keys &= (!keyMask);
+            break;
+        }
+    }
 }
 
 void InstructionExecutor::ex_FX15()
@@ -361,7 +392,7 @@ void InstructionExecutor::ex_FX29()
 
     state->registerFile.readReg(args[0], &vxVal);
 
-    state->indexReg = Emulator::FONT_LOAD_ADDR + vxVal;
+    state->indexReg = Emulator::FONT_LOAD_ADDR + (vxVal * 5);
 }
 
 void InstructionExecutor::ex_FX33()

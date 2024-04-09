@@ -1,5 +1,6 @@
 #include "app-desktop-sdl/chipRendererSdl.h"
 #include "app-desktop-sdl/sdlWindow.h"
+#include "app-desktop-sdl/inputHandlerSDL.h"
 #include "emulator/emulator.h"
 #include <iostream>
 #include <fstream>
@@ -23,6 +24,8 @@ int main(int argc, char* argv[])
     double          curTimeMs;
     double          prevTimeMs;
     double          deltaTimeMs;
+    uint8_t         key;
+    bool            pressed;
 
     if(argc != 2)
     {
@@ -59,9 +62,14 @@ int main(int argc, char* argv[])
     curTimeMs = prevTimeMs = getTimeMs();
     while(true)
     {
-        if (SDL_PollEvent(&sdlEvent))
+        while(SDL_PollEvent(&sdlEvent))
+        {
             if (sdlEvent.type == SDL_QUIT)
-                break;
+                goto end;
+
+            if(InputHandlerSDL::getKeyEvent(sdlEvent, key, pressed))
+                emulator.keyEvent(key, pressed);
+        }
 
         curTimeMs   = getTimeMs();
         deltaTimeMs = curTimeMs - prevTimeMs;
@@ -69,6 +77,7 @@ int main(int argc, char* argv[])
         emulator.update(deltaTimeMs);
     }
 
+    end:
     return 0;
 }
 

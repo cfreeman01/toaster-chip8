@@ -66,3 +66,13 @@ void Emulator::decDelayTimer()
     if(state.delayTimer > 0)
         state.delayTimer--;
 }
+
+void Emulator::keyEvent(uint8_t keyVal, bool pressed)
+{
+    uint16_t keysUpdate = 0x1 << keyVal;
+
+    if(pressed)
+        state.keys |= keysUpdate;
+    else
+        state.keys &= (!keysUpdate);
+}
