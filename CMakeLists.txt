@@ -10,7 +10,6 @@ set(INCLUDE_DIR include)
 find_package(SDL2 REQUIRED)
 
 #CppUTest
-set(CPPUTEST_MEM_LEAK_DETECTION_DISABLED true)
 add_subdirectory(cpputest)
 
 #Core emulator lib
