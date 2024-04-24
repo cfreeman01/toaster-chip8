@@ -1,8 +1,6 @@
 cmake_minimum_required(VERSION 3.2)
 project(toaster-chip8)
 
-include(FetchContent)
-
 set(APP_DIR     src/app-desktop-sdl)
 set(EMU_DIR     src/emulator)
 set(TEST_DIR    test)
@@ -12,12 +10,8 @@ set(INCLUDE_DIR include)
 find_package(SDL2 REQUIRED)
 
 #CppUTest
-FetchContent_Declare(
-    CppUTest
-    GIT_REPOSITORY https://github.com/cpputest/cpputest.git
-    GIT_TAG        v4.0
-)
-FetchContent_Populate(CppUTest)
+set(CPPUTEST_MEM_LEAK_DETECTION_DISABLED true)
+add_subdirectory(cpputest)
 
 #Core emulator lib
 file(GLOB_RECURSE EMU_SRC
@@ -37,7 +31,7 @@ add_executable(CHIP8 ${APP_SRC})
 target_link_libraries(CHIP8 CHIP8lib)
 include_directories(CHIP8 ${INCLUDE_DIR})
 
-#Test
+#Test app
 file(GLOB_RECURSE TEST_SRC
             ${TEST_DIR}/*.cpp 
             ${TEST_DIR}/*.h)
