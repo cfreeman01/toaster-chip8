@@ -18,8 +18,6 @@ FetchContent_Declare(
     GIT_TAG        v4.0
 )
 FetchContent_Populate(CppUTest)
-set(CPPUTEST_MEM_LEAK_DETECTION_DISABLED true)
-add_subdirectory(${cpputest_SOURCE_DIR})
 
 #Core emulator lib
 file(GLOB_RECURSE EMU_SRC
@@ -51,4 +49,4 @@ target_link_libraries(CHIP8test
 
 include_directories(CHIP8test 
                     ${INCLUDE_DIR}
-                    ${cpputest_SOURCE_DIR}/include)
+                    cpputest/include)
